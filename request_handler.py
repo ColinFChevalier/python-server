@@ -87,19 +87,18 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         (resource, id) = self.parse_url(self.path)
 
-        new_animal = None
+        new_entry = None
+        
         if resource == "animals":
-            new_animal = create_animal(post_body)
+            new_entry = create_animal(post_body)
 
         if resource == "employees":
-            new_employee = create_employee(post_body)
+            new_entry = create_employee(post_body)
 
         if resource == "location":
-            new_location = create_location(post_body)
+            new_entry = create_location(post_body)
 
-        self.wfile.write(f"{new_animal}".encode())
-        self.wfile.write(f"{new_employee}".encode())
-        self.wfile.write(f"{new_location}".encode())
+        self.wfile.write(f"{new_entry}".encode())
 
     def do_DELETE(self):
         self._set_headers(204)
