@@ -20,6 +20,7 @@ update_location
 )
 import json
 
+
 class HandleRequests(BaseHTTPRequestHandler):
 
     def parse_url(self, path):
