@@ -5,19 +5,19 @@ import sqlite3
 LOCATIONS = [
     {
         "id": 1,
-        "locationId": 1,
+        "name": "North",
         "address": "123 Number Rd"
     },
     {
         "id": 2,
-        "locationId": 2,
+        "name": "South",
         "address": "321 Rebmun Dr"
     }
 ]
 
 
 def get_all_locations():
-    
+
     with sqlite3.connect("./kennel.db") as conn:
 
         conn.row_factory = sqlite3.Row
@@ -26,7 +26,7 @@ def get_all_locations():
         db_cursor.execute("""
         SELECT
             a.id,
-            a.location_id,
+            a.name,
             a.address
         FROM location a
         """)
@@ -37,7 +37,7 @@ def get_all_locations():
 
         for row in dataset:
 
-            location = Location(row['id'], row['location_id'],  row['address'])
+            location = Location(row['id'], row['name'],  row['address'])
 
             locations.append(location.__dict__)
 

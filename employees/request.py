@@ -7,19 +7,16 @@ EMPLOYEES = [
         "id": 1,
         "name": "Diogenes",
         "locationId": 1,
-        "position": "Manager"
     },
     {
         "id": 2,
         "name": "Kaftka",
         "locationId": 1,
-        "position": "Groundskeeper"
     },
     {
         "id": 3,
         "name": "Socrates",
         "locationId": 2,
-        "position": "Intern"
     }
 ]
 
@@ -37,8 +34,7 @@ def get_all_employees():
         SELECT
             a.id,
             a.name,
-            a.location_id,
-            a.position
+            a.location_id
         FROM employee a
         """)
 
@@ -56,7 +52,7 @@ def get_all_employees():
             # exact order of the parameters defined in the
             # Employee class above.
             employee = Employee(row['id'], row['name'],
-                            row['location_id'], row['position'])
+                row['location_id'])
 
             employees.append(employee.__dict__)
 
