@@ -5,6 +5,7 @@ get_single_animal,
 create_animal,
 delete_animal,
 update_animal)
+from customers.request import delete_customer
 from employees import (
 get_all_employees,
 get_single_employee,
@@ -17,6 +18,13 @@ get_single_location,
 create_location,
 delete_location,
 update_location
+)
+from customers import (
+get_all_customers,
+get_single_customer,
+create_customer,
+delete_customer,
+update_customer
 )
 import json
 
@@ -76,6 +84,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = f"{get_all_locations()}"
+        
+        if resource == "customers":
+            if id is not None:
+                response = f"{get_single_customer()}"
+
+            else: 
+                response = f"{get_all_customers()}"
 
         self.wfile.write(response.encode())
 
@@ -98,6 +113,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "location":
             new_entry = create_location(post_body)
+        
+        if resource == "customer":
+            new_entry = create_customer(post_body)
 
         self.wfile.write(f"{new_entry}".encode())
 
@@ -112,6 +130,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_employee(id)
         if resource == "locations":
             delete_location(id)
+        if resource == "customers":
+            delete_customer
 
 
         self.wfile.write("".encode())
@@ -130,6 +150,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             update_employee(id, post_body)
         if resource == "locations":
             update_location(id, post_body)
+        if resource == "customers":
+            update_customer(id, post_body)
 
         self.wfile.write("".encode())
 
