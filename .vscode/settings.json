@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Python Server",
+            "database": "kennel.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
