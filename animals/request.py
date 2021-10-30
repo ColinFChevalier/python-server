@@ -2,36 +2,7 @@ from models import Animal
 import json
 import sqlite3
 
-ANIMALS = [
-    {
-        "id": 1,
-        "name": "Snickers",
-        "species": "Dog",
-        "locationId": 1,
-        "customerId": 4,
-        "status": "Admitted"
-    },
-    {
-        "id": 2,
-        "name": "Gypsy",
-        "species": "Dog",
-        "locationId": 1,
-        "customerId": 2,
-        "status": "Admitted"
-    },
-    {
-        "id": 3,
-        "name": "Blue",
-        "species": "Cat",
-        "locationId": 2,
-        "customerId": 1,
-        "status": "Admitted"
-    }
-]
-
-
-# def get_all_animals():
-#     return ANIMALS
+ANIMALS = []
 
 def create_animal(animal):
     max_id = ANIMALS[-1]["id"]
@@ -112,4 +83,31 @@ def get_all_animals():
             animals.append(animal.__dict__)
 
     # Use `json` package to properly serialize list as JSON
+    return json.dumps(animals)
+
+def get_animal_by_location(location_id):
+
+    with sqlite3.connect("./kennel.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        select
+            c.id,
+            c.name,
+            c.breed,
+            c.status
+            c.location_id,
+            c.customer_id
+        from Animal c
+        WHERE c.location_id = ?
+        """, ( location_id, ))
+
+        animals = []
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            animal = Animal(row['id'], row['name'], row['breed'], row['status'], row['location_id'], row['customer_id'])
+            animals.append(animal.__dict__)
+
     return json.dumps(animals)

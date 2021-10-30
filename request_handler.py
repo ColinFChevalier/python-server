@@ -4,7 +4,9 @@ get_all_animals,
 get_single_animal,
 create_animal,
 delete_animal,
-update_animal)
+update_animal,
+get_animal_by_location
+)
 from employees import (
 get_all_employees,
 get_single_employee,
@@ -97,7 +99,16 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_customer(id)}"
                 else:
                     response = f"{get_all_customers()}"
-            import pdb; pdb.set_trace()
+            elif resource == "locations":
+                if id is not None:
+                    response = f"{get_single_location(id)}"
+                else:
+                    response = f"{get_all_locations()}"
+            elif resource == "employees":
+                if id is not None:
+                    response = f"{get_single_employee(id)}"
+                else:
+                    response = f"{get_all_employees()}"
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -110,6 +121,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
+            if key == "location_id" and resource == "animals":
+                response = get_animal_by_location(value)
 
         self.wfile.write(response.encode())
 
