@@ -25,16 +25,24 @@ def get_single_animal(id):
 
     return requested_animal
 
-
 def delete_animal(id):
-    animal_index = -1
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
 
-    for index, animal in enumerate(ANIMALS):
-        if animal["id"] == id:
-            animal_index = index
+        db_cursor.execute("""
+        DELETE FROM animal
+        WHERE id = ?
+        """, (id, ))
 
-    if animal_index >= 0:
-        ANIMALS.pop(animal_index)
+# def delete_animal(id):
+#     animal_index = -1
+
+#     for index, animal in enumerate(ANIMALS):
+#         if animal["id"] == id:
+#             animal_index = index
+
+#     if animal_index >= 0:
+#         ANIMALS.pop(animal_index)
 
 
 def update_animal(id, new_animal):
@@ -96,7 +104,7 @@ def get_animal_by_location(location_id):
             c.id,
             c.name,
             c.breed,
-            c.status
+            c.status,
             c.location_id,
             c.customer_id
         from Animal c

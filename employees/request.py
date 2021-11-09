@@ -80,16 +80,23 @@ def get_single_employee(id):
 
     return requested_employee
 
-
 def delete_employee(id):
-    employee_index = -1
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
 
-    for index, employee in enumerate(EMPLOYEES):
-        if employee["id"] == id:
-            employee_index = index
+        db_cursor.execute("""
+        DELETE FROM employee
+        WHERE id = ?
+        """, (id, ))
+# def delete_employee(id):
+#     employee_index = -1
 
-    if employee_index >= 0:
-        EMPLOYEES.pop(employee_index)
+#     for index, employee in enumerate(EMPLOYEES):
+#         if employee["id"] == id:
+#             employee_index = index
+
+#     if employee_index >= 0:
+#         EMPLOYEES.pop(employee_index)
 
 
 def update_employee(id, new_employee):
